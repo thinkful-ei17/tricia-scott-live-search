@@ -7,15 +7,26 @@ export default class LiveSearch extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      characters: this.props.characters,   
+      characters: this.props.characters,
+      searchString: "",   
     }
   }
+  updateSearchString(str) {
+    this.setState({searchString: str});
+  }
+
   render(){
+    const charList = this.state.characters.filter( character => 
+      character.name.toLowerCase().includes(
+        this.state.searchString.toLowerCase()
+      )
+    );
 
-    return <div>
-      <SearchForm />
-      <CharacterList characters={this.state.characters} />
-
+    return (
+      <div>
+        <SearchForm searchString={e => this.updateSearchString(e)}/>
+        <CharacterList characters={charList} />
       </div>
+    );
   }
 }
